@@ -12,8 +12,8 @@ import pl.upside.repositories.BookRepository;
 public class BookController {
     BookRepository repository;
 
-    BookController() {
-        this.repository = new MockBookRepo().getRepository();
+    BookController(BookRepository bookRepository) {
+        this.repository = bookRepository;
     }
 
     @GetMapping(value = "/{id}")
