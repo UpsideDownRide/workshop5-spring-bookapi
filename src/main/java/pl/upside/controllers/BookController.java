@@ -1,11 +1,10 @@
 package pl.upside.controllers;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.upside.MockBookRepo;
 import pl.upside.model.Book;
+import pl.upside.model.BookToAdd;
+import pl.upside.model.BookToUpdate;
 import pl.upside.repositories.BookRepository;
 
 
@@ -27,4 +26,24 @@ public class BookController {
     public Iterable<Book> getAllBooks() {
         return repository.getAll();
     }
+
+    @PostMapping("")
+    public Book addBook(@RequestBody BookToAdd bookToAdd) {
+        Long id = repository.size() + 1;
+        Book bookWithId = new Book(id, bookToAdd.isbn(), bookToAdd.title(), bookToAdd.author(),
+                bookToAdd.publisher(), bookToAdd.genre());
+        repository.add(bookWithId);
+        return bookWithId;
+    }
+
+    @PutMapping("")
+    public Book updateBook(@RequestBody BookToUpdate bookToUpdate) {
+        return repository.update(bookToUpdate);
+    }
+
+    @DeleteMapping("/{id}")
+    public void removeBook(@PathVariable Long id) {
+        repository.remove(id);
+    }
 }
+

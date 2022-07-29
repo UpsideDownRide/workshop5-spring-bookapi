@@ -1,5 +1,19 @@
 package pl.upside.model;
 
-public record Book(long id, String isbn, String title, String author, String publisher,
-                   String genre) {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@ToString
+public class Book {
+    Long   id;
+    String isbn;
+    String title;
+    String author;
+    String publisher;
+    String genre;
 }

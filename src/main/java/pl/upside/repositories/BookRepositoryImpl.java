@@ -1,6 +1,9 @@
 package pl.upside.repositories;
 
+import pl.upside.controllers.BookNotFoundException;
 import pl.upside.model.Book;
+import pl.upside.model.BookToUpdate;
+import pl.upside.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,12 +15,13 @@ public class BookRepositoryImpl implements BookRepository {
 
     @Override
     public void add(Book book) {
-        books.put(book.id(), book);
+        books.put(book.getId(), book);
     }
 
     @Override
-    public void remove(Book book) {
-        books.remove(book.id(), book);
+    public void remove(Long id) {
+        Book book = get(id).orElseThrow(BookNotFoundException::new);
+        books.remove(book.getId(), book);
     }
 
     @Override
@@ -28,5 +32,17 @@ public class BookRepositoryImpl implements BookRepository {
     @Override
     public Iterable<Book> getAll() {
         return new ArrayList<>(books.values());
+    }
+
+    @Override
+    public Book update(BookToUpdate bookToUpdate) {
+        Book originalBook = get(bookToUpdate.getId()).orElseThrow(BookNotFoundException::new);
+        Utils.copyNonNullProperties(bookToUpdate, originalBook);
+        return originalBook;
+    }
+
+    @Override
+    public Long size() {
+        return (long) books.size();
     }
 }
