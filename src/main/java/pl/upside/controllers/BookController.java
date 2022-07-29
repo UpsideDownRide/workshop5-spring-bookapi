@@ -18,14 +18,13 @@ public class BookController {
         this.repository = new MockBookRepo().getRepository();
     }
 
-    @GetMapping("/hello")
-    public Book hello() {
-        return new Book(1L, "9788324631766", "Thinking in Java",
-                "Bruce Eckel", "Helion", "programming");
-    }
-
     @GetMapping("/{id}")
     public Book getBook(@PathVariable Long id) {
         return repository.get(id).orElseThrow(BookNotFoundException::new);
+    }
+
+    @GetMapping("")
+    public Iterable<Book> getAllBooks() {
+        return repository.getAll();
     }
 }

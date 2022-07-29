@@ -25,11 +25,12 @@ public class MockBookRepo extends BookRepositoryImpl {
     }
 
     private String generateISBN() {
-        return "0-" + randomDigits(4) + "-" + randomDigits(4) + "-" + randomDigits(1);
+        return "0-" + randomDigits(4,true) + "-" + randomDigits(4, true) + "-" + randomDigits(1, false);
     }
 
-    private String randomDigits(int magnitude){
+    private String randomDigits(int magnitude, boolean pad){
         int bound = (int) Math.pow(10, magnitude - 1);
-        return String.format("%04d", random.nextInt(bound) + 1);
+        int randomNumber = random.nextInt(bound) + 1;
+        return pad ? String.format("%04d", randomNumber) : String.valueOf(randomNumber);
     }
 }
