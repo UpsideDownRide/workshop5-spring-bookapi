@@ -3,8 +3,7 @@ package pl.upside.controllers;
 import org.springframework.web.bind.annotation.*;
 import pl.upside.MockBookRepo;
 import pl.upside.model.Book;
-import pl.upside.model.BookToAdd;
-import pl.upside.model.BookToUpdate;
+import pl.upside.model.BookWithoutId;
 import pl.upside.repositories.BookRepository;
 
 
@@ -17,27 +16,24 @@ public class BookController {
         this.repository = new MockBookRepo().getRepository();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}")
+    @ResponseBody
     public Book getBook(@PathVariable Long id) {
         return repository.get(id).orElseThrow(BookNotFoundException::new);
     }
 
-    @GetMapping("")
+    @GetMapping(value = "")
     public Iterable<Book> getAllBooks() {
         return repository.getAll();
     }
 
-    @PostMapping("")
-    public Book addBook(@RequestBody BookToAdd bookToAdd) {
-        Long id = repository.size() + 1;
-        Book bookWithId = new Book(id, bookToAdd.isbn(), bookToAdd.title(), bookToAdd.author(),
-                bookToAdd.publisher(), bookToAdd.genre());
-        repository.add(bookWithId);
-        return bookWithId;
+    @PostMapping(value = "")
+    public Book addBook(@RequestBody BookWithoutId bookWithoutId) {
+        return repository.add(bookWithoutId);
     }
 
-    @PutMapping("")
-    public Book updateBook(@RequestBody BookToUpdate bookToUpdate) {
+    @PutMapping(value = "")
+    public Book updateBook(@RequestBody Book bookToUpdate) {
         return repository.update(bookToUpdate);
     }
 

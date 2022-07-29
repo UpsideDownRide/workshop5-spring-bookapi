@@ -29,7 +29,7 @@ public class MockBookRepo extends BookRepositoryImpl {
     }
 
     private String randomDigits(int magnitude, boolean pad){
-        int bound = (int) Math.pow(10, magnitude - 1);
+        int bound = (int) Math.pow(10, magnitude);
         int randomNumber = random.nextInt(bound) + 1;
         return pad ? String.format("%04d", randomNumber) : String.valueOf(randomNumber);
     }
